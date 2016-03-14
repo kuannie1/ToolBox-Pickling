@@ -29,7 +29,32 @@ def update_counter(file_name, reset=False):
 	>>> update_counter('blah2.txt')
 	2
 	"""
-	pass
+
+	if (exists(file_name) == False) or (reset == True):
+		#What if the file isn't there or the reset is true?
+		fin = open(file_name, 'r+') #creates & opens file for writing AND reading
+		counter = 1
+	elif (exists(file_name) == True) and (reset == False):
+		#What if the file is there & the reset is true?
+		fin = open(file_name, 'r+')
+		counter = load(fin) + 1 #reads a string from the file_name file
+								#interprets file_name file as a pickle data stream
+								#reconstructs & returns the original object hierarchy
+	else:
+		return counter
+
+
+	fin.seek(0, 0)
+	dump(counter, fin) #supposed to write a pickled representaiton of an object to the file
+	return counter
+	fin.close()
+
+
+
+#note to self: fin needs to be referenced BEFORE assignment! line 39 can't go before line 38
+
+	
+
 
 if __name__ == '__main__':
 	if len(sys.argv) < 2:
